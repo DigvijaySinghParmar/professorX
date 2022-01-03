@@ -21,11 +21,14 @@ class Toolbox():
         df = pd.DataFrame(arr, columns=['Sequence'])
         df.to_csv('sequence.csv')
 
-    def stimuli(self,period,buffer):
+    def stimuli(self,period,buffer,cross_period):
         # before running for the first time make sure you call random_gen() once.
-        df = pd.read_csv(r"sequence.csv")
+        df = pd.read_csv("sequence.csv")
         markers = df["Sequence"].to_numpy()
         # imports the binary values from sequence.csv into a list named markers
+
+        self.display_cross(cross_period)
+        time.sleep(buffer)
 
         for i in markers:
             if i==0:
@@ -68,4 +71,13 @@ class Toolbox():
         root.after(time,lambda:root.destroy())
         root.mainloop()
 
-
+    def display_cross(self, time):
+        root = Tk()
+        root.geometry("+500+200")
+        canvas = Canvas(root, width = 300, height = 300)
+        canvas.pack()
+        canvas.create_rectangle(0, 0, 300, 300, fill="white")
+        canvas.create_line(75, 150, 225, 150, fill="black", width=10)
+        canvas.create_line(150, 50, 150, 250, fill="black", width=10)
+        root.after(time,lambda:root.destroy())
+        root.mainloop()
