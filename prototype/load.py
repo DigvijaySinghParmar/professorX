@@ -167,7 +167,7 @@ class Worker(QObject):
     finished = pyqtSignal()
 
     def start(self):
-        os.system("python C:/Users/KHALS/OneDrive/Desktop/professorX/record.py")
+        os.system("python "+os.path.dirname(os.getcwd())+"\\record.py")
         self.finished.emit()
         # trial, find alternative way to emit if this does not work.
 
