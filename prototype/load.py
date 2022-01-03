@@ -32,6 +32,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.spinBox_3.valueChanged.connect(self.valuechange)
         self.spinBox_3.setSingleStep(5)
         # spinbox for number of trials
+        
+        self.t4 = 1
+        self.spinBox.setMinimum(1)
+        self.spinBox.valueChanged.connect(self.valuechange)
+        # spinBox for time period for which cross is displayed
 
         self.pushButton.setCheckable(True)
         self.pushButton.clicked.connect(self.the_button_was_clicked)
@@ -73,13 +78,14 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         # total_time = (self.t1 + self.t2)*self.t3
         obj.random_gen(self.t3)
         self.record_EEG()
-        obj.stimuli(self.t1*1000,self.t2)
+        obj.stimuli(self.t1*1000,self.t2,self.t3*1000)
         
 
     def valuechange(self):
         self.t1 = self.spinBox.value()
         self.t2 = self.spinBox_2.value()
         self.t3 = self.spinBox_3.value()
+        self.t4 = self.spinbox_4.value()
 
     def the_end(self):
         sys.exit("Recording Stopped")
