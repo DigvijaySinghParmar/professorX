@@ -168,6 +168,9 @@ class Ui_MainWindow(object):
         self.pushButton_5.setObjectName("pushButton_5")
         self.horizontalLayout.addWidget(self.pushButton_5)
         self.tabWidget.addTab(self.tab_2, "")
+        self.tab_3 = QtWidgets.QWidget()
+        self.tab_3.setObjectName("tab_3")
+        self.tabWidget.addTab(self.tab_3, "")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 820, 25))
@@ -178,7 +181,7 @@ class Ui_MainWindow(object):
         MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(4)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -217,3 +220,4 @@ class Ui_MainWindow(object):
         self.pushButton_3.setText(_translate("MainWindow", "Raw EEG"))
         self.pushButton_5.setText(_translate("MainWindow", "Power Spectral Density"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Visualisation"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), _translate("MainWindow", "Classification"))
