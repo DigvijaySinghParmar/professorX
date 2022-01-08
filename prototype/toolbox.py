@@ -38,12 +38,6 @@ class Toolbox():
                 self.display_right(period)
                 time.sleep(buffer)
         
-    
-    #def plot(self):
-
-        
-
-
 
     def display_left(self, time):
         color_of_frame = random.choice(self.colors_list)
@@ -81,3 +75,4 @@ class Toolbox():
         canvas.create_line(150, 50, 150, 250, fill="black", width=10)
         root.after(time,lambda:root.destroy())
         root.mainloop()
+

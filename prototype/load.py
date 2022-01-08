@@ -1,5 +1,6 @@
 from toolbox import Toolbox
 from feature import Feature
+from feature import Preprocess
 from plot import PlotEEG, PlotFFT 
 import sys
 import os
@@ -59,6 +60,20 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.pushButton_8.clicked.connect(self.select_all_channels)
         # pushbutton to select all channels
 
+        self.pushButton_9.setCheckable(True)
+        self.pushButton_9.clicked.connect(self.EEG_process)
+        # pushbutton for EEG pre-processing
+
+        self.t5 = 1
+        self.spinBox_5.valueChanged.connect(self.valuechange)
+        self.t6 = 1
+        self.spinBox_6.valueChanged.connect(self.valuechange)
+        # spinboxes on preprocess tab
+
+
+
+
+
         self.pushButton_2.setCheckable(True)
         self.pushButton_2.clicked.connect(self.save_to_csv)
 
@@ -86,6 +101,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.t2 = self.spinBox_2.value()
         self.t3 = self.spinBox_3.value()
         self.t4 = self.spinBox_4.value()
+        self.t5 = self.spinBox_5.value()
+        self.t6 = self.spinBox_6.value()
 
     def the_end(self):
         sys.exit("Recording Stopped")
@@ -147,6 +164,13 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def plot_fourier(self):
         self.plot_fft.show()
     
+    def EEG_process(self):
+        filter_choice = str(self.comboBox.currentText())
+        freq = self.lineEdit.text()
+        proc = Preprocess(self.channels)
+        proc.apply_filter(filter_choice, self.t5, self.t6, freq)
+        
+    
 
         
 
@@ -179,10 +203,6 @@ class Worker(QObject):
 
             
         
-
-
-
-
 
 
 app = QtWidgets.QApplication(sys.argv)

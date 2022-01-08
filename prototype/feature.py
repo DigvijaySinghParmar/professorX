@@ -9,7 +9,7 @@ import scipy.signal
 # must choose channel from 14 channels: AF3, F7, F3, FC5, T7, P7, O1, O2, P8, T8, FC6, F4, F8, AF4
 class Feature():
 
-    def __init__(self, channels, readings, filename = "left.csv"):
+    def __init__(self, channels, readings, filename = "data.csv"):
         # name of file where data is stored along with extension
         self.filename = filename
         self.channels = channels
@@ -181,7 +181,80 @@ class Feature():
 
         # feature[channel+'PSD'] = self.psd_values
         
+class Preprocess():
+
+    def __init__(self, channels, filename = 'data.csv'):
+        self.channels = channels
+        self.filename = filename
+
+        self.data = pd.read_csv(self.filename)
+        self.data.to_csv('data1.csv', header = False)
+        self.data = pd.read_csv("data1.csv")
+
+    
+    def bandpass_coeff(self, low, high, fs, order):
+        """
+        Function to calculate filter coefficients
+        """
+        nyq = 0.5*fs
+        low = low / nyq
+        high = high / nyq
+        sos = signal.butter(order, [low, high], btype='bandpass', output='sos')
+        return sos
+    def bandstop_coeff(self, low, high, fs, order):
+        """
+        Function to calculate filter coefficients
+        """
+        nyq = 0.5*fs
+        low = low / nyq
+        high = high / nyq
+        sos = signal.butter(order, [low, high], btype='bandstop', output='sos')
+        return sos
+    def lowpass_coeff(self, high, fs, order):
+        """
+        Function to calculate filter coefficients
+        """
+        nyq = 0.5*fs
+        high = high / nyq
+        sos = signal.butter(order, high, btype='lowpass', output='sos')
+        return sos
+    def highpass_coeff(self, low, fs, order):
+        """
+        Function to calculate filter coefficients
+        """
+        nyq = 0.5*fs
+        low = low / nyq
+        sos = signal.butter(order, low, btype='highpass', output='sos')
+        return sos
+    
+    def apply_filter(self,choice,order,fs,freq):
+        list = freq.split()
+        f1 = int(list[0])
+
+        sos = []
+        if choice == 'lowpass':
+            sos = self.lowpass_coeff(f1,fs,order)
+        elif choice == 'highpass':
+            sos = self.highpass_coeff(f1,fs,order)
+        elif choice == 'bandpass':
+            f2 = int(list[1])
+            sos = self.bandpass_coeff(f1,f2,fs,order)
+        elif choice == 'bandstop':
+            f2 = int(list[1])
+            sos = self.bandstop_coeff(f1,f2,fs,order)
         
+        
+        for i in self.channels:
+            filtered = signal.sosfilt(sos, self.data[i])
+            print(filtered)
+    
+    # def save_to_csv(self,channel, filtered_eeg):
+
+
+
+        
+        
+
 
 
     
