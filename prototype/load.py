@@ -17,6 +17,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.setWindowTitle("ProfessorX")
 
+
+        # CODE FOR "RECORD EEG" TAB
         self.t1 = 1
         self.spinBox.setMinimum(1)
         self.spinBox.valueChanged.connect(self.valuechange)
@@ -46,7 +48,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.pushButton_6.setCheckable(True)
         self.pushButton_6.clicked.connect(self.the_end)
         # stop recording pushbutton
+        # CODE FOR "RECORD EEG" TAB ENDS
 
+        # CODE FOR "CHANNEL SELECTION" TAB
         self.checklist = ['EEG.AF3','EEG.F7','EEG.F3','EEG.FC5','EEG.T7','EEG.P7','EEG.O1','EEG.O2','EEG.P8','EEG.T8','EEG.FC6','EEG.F4','EEG.F8','EEG.AF4']
         self.mask = []
         self.channels = []
@@ -60,6 +64,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.pushButton_8.clicked.connect(self.select_all_channels)
         # pushbutton to select all channels
 
+        # CODE FOR "CHANNEL SELECTION" TAB ENDS
+
+        # CODE FOR "PRE PROCESSING" TAB
         self.pushButton_9.setCheckable(True)
         self.pushButton_9.clicked.connect(self.EEG_process)
         # pushbutton for EEG pre-processing
@@ -70,13 +77,15 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.spinBox_6.valueChanged.connect(self.valuechange)
         # spinboxes on preprocess tab
 
+        # CODE FOR "PRE PROCESSING" TAB ENDS
 
-
-
-
+        # CODE FOR "FEATURE EXTRACTION" TAB
         self.pushButton_2.setCheckable(True)
         self.pushButton_2.clicked.connect(self.save_to_csv)
 
+        # CODE FOR "FEATURE EXTRACTION" TAB ENDS
+
+        # CODE FOR "VISUALIZATION" TAB
         self.pushButton_3.setCheckable(True)
         self.pushButton_3.clicked.connect(self.plot_raw)
         self.plot_eeg = PlotEEG(self.channels)
@@ -85,6 +94,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.pushButton_4.clicked.connect(self.plot_fourier)
         self.plot_fft = PlotFFT(self.channels)
 
+        # CODE FOR "VISUALIZATION" TAB ENDS
 
 
 
