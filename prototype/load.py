@@ -160,7 +160,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.plot_fft = PlotFFT(self.channels)
     
     def save_to_csv(self):
-        feat = Feature(self.channels, self.t3)
+        filename = self.lineEdit_2.text()
+        feat = Feature(self.channels, self.t3, filename)
         if self.checkBox.isChecked():
             feat.relative_psd()
         # if self.checkBox_2.isChecked():
@@ -179,6 +180,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         freq = self.lineEdit.text()
         proc = Preprocess(self.channels)
         proc.apply_filter(filter_choice, self.t5, self.t6, freq)
+        
+            
         
     
 

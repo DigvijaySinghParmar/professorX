@@ -5,6 +5,7 @@ from scipy.integrate import simps
 # import matplotlib.pyplot as plt
 import pywt
 import scipy.signal
+from numpy import linalg as LA
 
 # must choose channel from 14 channels: AF3, F7, F3, FC5, T7, P7, O1, O2, P8, T8, FC6, F4, F8, AF4
 class Feature():
@@ -153,14 +154,10 @@ class Feature():
 
         self.feature = self.feature.drop('Redundant', axis=1)
         self.feature.to_csv('feature.csv')
-
-    def band_pass(self, low, high, order):
-        """
-        Function to apply band-pass butterworth filter.
-        """
         
 
     def wavelet(self):
+    
         data = pd.read_csv(self.filename)
         data.to_csv('data1.csv', header = False)
         data = pd.read_csv("data1.csv")
@@ -170,6 +167,51 @@ class Feature():
             print(i)
             print("******************")
             print(dec)
+    
+    def CSP(self):
+        data = pd.read_csv("left.csv")
+        data.to_csv('left1.csv', header = False)
+        data = pd.read_csv("left1.csv")
+
+        data1 = pd.read_csv("right.csv")
+        data1.to_csv('right1.csv', header = False)
+        data1 = pd.read_csv("right1.csv")
+
+
+        ## code for average normalized spatial variance
+        indices = np.linspace(0, data['EEG.AF3'].size, self.readings+1, dtype=int)
+        sum1 = np.zeros(14)
+        sum2 = np.zeros(14)
+        for i in range(self.readings):
+            XLeftdash = data[self.channels].iloc[indices[i] : indices[i+1]].to_numpy()
+            XRightdash = data1[self.channels].iloc[indices[i] : indices[i+1]].to_numpy()
+            XLeft = np.transpose(XLeftdash)
+            XRight = np.transpose(XRightdash)
+            product_left = np.matmul(XLeft,XLeftdash)
+            product_right = np.matmul(XRight,XRightdash)
+            #print(XLeftdash.shape)
+            #print(XRightdash.shape)
+            #print(XLeft.shape)
+            #print(XRight.shape)
+
+            # Normalized spatial covariance
+            R_left = product_left / np.trace(product_left)
+            R_right = product_right / np.trace(product_right)
+            
+            # Averaged Normalized spatial covariance
+            sum1 = np.add(sum1,R_left)
+            sum2 = np.add(sum2,R_right)
+        R_left_avg = sum1/self.readings
+        R_right_avg = sum2/self.readings
+        R = R_left_avg + R_right_avg
+        w, v = LA.eig(R)
+
+
+
+
+
+
+
 
 
     def save_to_file(self, channel, feature):
@@ -247,6 +289,7 @@ class Preprocess():
         for i in self.channels:
             filtered = signal.sosfilt(sos, self.data[i])
             print(filtered)
+
     
     # def save_to_csv(self,channel, filtered_eeg):
 
