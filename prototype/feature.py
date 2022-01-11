@@ -180,8 +180,8 @@ class Feature():
 
         ## code for average normalized spatial variance
         indices = np.linspace(0, data['EEG.AF3'].size, self.readings+1, dtype=int)
-        sum1 = np.zeros(14)
-        sum2 = np.zeros(14)
+        sum1 = np.zeros((14,14))
+        sum2 = np.zeros((14,14))
         for i in range(self.readings):
             XLeftdash = data[self.channels].iloc[indices[i] : indices[i+1]].to_numpy()
             XRightdash = data1[self.channels].iloc[indices[i] : indices[i+1]].to_numpy()
@@ -204,7 +204,40 @@ class Feature():
         R_left_avg = sum1/self.readings
         R_right_avg = sum2/self.readings
         R = R_left_avg + R_right_avg
-        w, v = LA.eig(R)
+        # code for whitening matrix
+        evals, evecs = np.linalg.eigh(R)
+
+        # Calculate whiteing matrix
+        P = np.diag(evals**(-1/2)) @ evecs.T
+
+        # Applying whitening matrix to Left data
+        # z = np.diag(evals**(-1/2)) @ evecs.T @ XLeft
+        # Applying whitening matrix to Right data
+        # z1 = np.diag(evals**(-1/2)) @ evecs.T @ XRight
+
+        S_left = P @ R_left_avg @ np.transpose(P)
+        S_right = P @ R_right_avg @ np.transpose(P)
+
+        evals, evecs = np.linalg.eigh(S_left)
+        W = np.transpose(evecs) @ P
+        W_dash = np.transpose(W)
+
+        z = W @ XLeft
+        z1 = W @ XRight
+        
+        mask = [False,False,False,False,False,False,False,False,False,False,False,False,False,False]
+        for i in range(6):
+            am = np.where(W_dash == np.max(W_dash))
+            c_idx = am[0][0]
+            r_idx = am[1][0]
+            W_dash[c_idx,r_idx] = 0
+            mask[r_idx] = True
+        
+        return mask
+
+        # spatial_patterns = pd.DataFrame(W_dash)
+
+
 
 
 

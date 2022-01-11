@@ -64,6 +64,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.pushButton_8.clicked.connect(self.select_all_channels)
         # pushbutton to select all channels
 
+        self.pushButton_10.setCheckable(True)
+        self.pushButton_10.clicked.connect(self.CSP_select)
+
         # CODE FOR "CHANNEL SELECTION" TAB ENDS
 
         # CODE FOR "PRE PROCESSING" TAB
@@ -158,6 +161,13 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         # print(self.channels)
         self.plot_eeg = PlotEEG(self.channels)
         self.plot_fft = PlotFFT(self.channels)
+    
+    def CSP_select(self):
+        feat = Feature(self.channels, self.t3)
+        mask = feat.CSP()
+        channels = [x for x, y in zip(self.checklist, mask) if y == True]
+        print(channels)
+        
     
     def save_to_csv(self):
         filename = self.lineEdit_2.text()

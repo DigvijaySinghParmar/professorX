@@ -123,11 +123,14 @@ class Ui_MainWindow(object):
         self.pushButton_7.setObjectName("pushButton_7")
         self.verticalLayout.addWidget(self.pushButton_7)
         self.label_5 = QtWidgets.QLabel(self.tab_6)
-        self.label_5.setGeometry(QtCore.QRect(30, 20, 571, 511))
+        self.label_5.setGeometry(QtCore.QRect(260, 40, 371, 331))
         self.label_5.setText("")
         self.label_5.setPixmap(QtGui.QPixmap("resources/10-20.png"))
         self.label_5.setScaledContents(True)
         self.label_5.setObjectName("label_5")
+        self.pushButton_10 = QtWidgets.QPushButton(self.tab_6)
+        self.pushButton_10.setGeometry(QtCore.QRect(40, 40, 83, 29))
+        self.pushButton_10.setObjectName("pushButton_10")
         self.tabWidget.addTab(self.tab_6, "")
         self.tab_4 = QtWidgets.QWidget()
         self.tab_4.setObjectName("tab_4")
@@ -239,7 +242,7 @@ class Ui_MainWindow(object):
         MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
-        self.tabWidget.setCurrentIndex(2)
+        self.tabWidget.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -268,6 +271,7 @@ class Ui_MainWindow(object):
         self.FC6.setText(_translate("MainWindow", "FC6"))
         self.pushButton_8.setText(_translate("MainWindow", "Select All"))
         self.pushButton_7.setText(_translate("MainWindow", "Update Channel Selection"))
+        self.pushButton_10.setText(_translate("MainWindow", "CSP"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_6), _translate("MainWindow", "Channel Selection"))
         self.pushButton_9.setText(_translate("MainWindow", "Execute"))
         self.label_6.setText(_translate("MainWindow", "Choice of Filter :"))
